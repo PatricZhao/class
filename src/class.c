@@ -19,6 +19,7 @@
 #include <R.h>
 #include <math.h>
 #include <float.h>
+#include <omp.h>                /* openMP library */
 
 #define EPS 1e-4		/* relative test of equality of distances */
 
