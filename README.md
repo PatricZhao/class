@@ -10,4 +10,5 @@ Modified by Peng Zhao
 INTALL:
 
 library(devtools)
+
 install_github("patriczhao/class")
