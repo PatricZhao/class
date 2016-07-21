@@ -18,14 +18,25 @@ install_github("patriczhao/class")
 TEST:
 
     n.cols <- 500 
-    n.rows <- 50000 
+    n.rows <- 5000 
   
     train  <- matrix(runif(n.cols * n.rows), nrow=n.rows)
     labels <- sample(10, n.rows, replace=T) 
 
-    test.rows <- 1e6  
+    test.rows <- 5000  
     test <- matrix(runif(n.cols * test.rows), nrow=test.rows)
 
     library(class)
-    knn(train, test, cl=labels, k=5)
+    system.time(knn(train, test, cl=labels, k=5))
+    
+    library(devtools)
+    install_github("patriczhao/class")
+    library(class)
+    system.time(knn(train, test, cl=labels, k=5))
 
+
+-----------------------------------------------------------------------------------------------------------
+Result :
+
+     original(1 -core)   : 19.4 sec
+     OpenMP  (20-cores)  :  2.3 sec
