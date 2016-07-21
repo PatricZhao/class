@@ -17,17 +17,17 @@ install_github("patriczhao/class")
 -----------------------------------------------------------------------------------------------------------
 TEST:
 
-# number of features and observations
-n.cols <- 500 
-n.rows <- 5000 
-# fake data with labels of 10 classes
-train  <- matrix(runif(n.cols * n.rows), nrow=n.rows)
-labels <- sample(10, n.rows, replace=T) 
+    number of features and observations
+    n.cols <- 500 
+    n.rows <- 5000 
+    fake data with labels of 10 classes
+    train  <- matrix(runif(n.cols * n.rows), nrow=n.rows)
+    labels <- sample(10, n.rows, replace=T) 
 
-test.rows <- 1e6  # large number
-test <- matrix(runif(test.rows * n.cols), nrow=test.rows)
+    test.rows <- 1e6  # large number
+    test <- matrix(runif(test.rows * n.cols), nrow=test.rows)
 
-# clustering by knn
-library(class)
-knn(train, test, cl=labels, k=5)
+    clustering by knn
+    library(class)
+    knn(train, test, cl=labels, k=5)
 
