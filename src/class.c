@@ -16,6 +16,10 @@
  *
  */
 
+// Patric: Add OpenMP directive in the VR_Knn function.
+// Details visit : www.parallelr.com/blog
+
+
 #include <R.h>
 #include <math.h>
 #include <float.h>
