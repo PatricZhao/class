@@ -108,6 +108,8 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
     Simple insertion sort will suffice since k will be small.
  */
 
+// Patric: Coarse Granularity Parallel by openMP 
+    #pragma omp parallel for private(npat, i, index, j, k, k1, kn, mm, ntie, extras, pos, nclass, j1, j2, needed, t, dist, tmp, nndist) shared(pr, res, test, train, class, nte, ntr, nc) 
     for (npat = 0; npat < nte; npat++) {
 	kn = kinit;
 	for (k = 0; k < kn; k++)
@@ -139,28 +141,30 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
 	    nndist[kn] = 0.99 * DOUBLE_XMAX;
 	}
 
-	for (j = 0; j <= *nc; j++)
-	    votes[j] = 0;
+// Patric to solve shared memory buffer issue. Calloc is thread-safe function located in memory.c.
+        Sint *__votes = Calloc(nc+1, Sint);
+        for (j = 0; j <= *nc; j++)
+	    __votes[j] = 0;
 	if (*use_all) {
 	    for (j = 0; j < kinit; j++)
-		votes[class[pos[j]]]++;
+		__votes[class[pos[j]]]++;
 	    extras = 0;
 	    for (j = kinit; j < kn; j++) {
 		if (nndist[j] > nndist[kinit - 1] * (1 + EPS))
 		    break;
 		extras++;
-		votes[class[pos[j]]]++;
+		__votes[class[pos[j]]]++;
 	    }
 	} else { /* break ties at random */
 	    extras = 0;
 	    for (j = 0; j < kinit; j++) {
 		if (nndist[j] >= nndist[kinit - 1] * (1 - EPS))
 		    break;
-		votes[class[pos[j]]]++;
+		__votes[class[pos[j]]]++;
 	    }
 	    j1 = j;
 	    if (j1 == kinit - 1) { /* no ties for largest */
-		votes[class[pos[j1]]]++;
+		__votes[class[pos[j1]]]++;
 	    } else {
 /* Use reservoir sampling to choose amongst the tied distances */
 		j1 = j;
@@ -177,7 +181,7 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
 		    }
 		}
 		for (j = 0; j < needed; j++)
-		    votes[nclass[j]]++;
+		    __votes[nclass[j]]++;
 	    }
 	}
 
@@ -189,17 +193,19 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
 	    mm = 0;
 	index = 0;
 	for (i = 1; i <= *nc; i++)
-	    if (votes[i] > mm) {
+	    if (__votes[i] > mm) {
 		ntie = 1;
 		index = i;
-		mm = votes[i];
-	    } else if (votes[i] == mm && votes[i] >= l) {
+		mm = __votes[i];
+	    } else if (__votes[i] == mm && __votes[i] >= l) {
 		if (++ntie * UNIF < 1.0)
 		    index = i;
 	    }
 	res[npat] = index;
 	pr[npat] = (double) mm / (kinit + extras);
-    }
+        // Patric:  perthread memory
+        Free(__votes);
+    }   // Patric: End of OMP region
     RANDOUT;
 }
 
