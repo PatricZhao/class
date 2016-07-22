@@ -4,7 +4,7 @@
 \name{knn}
 \alias{knn}
 \title{
-k-Nearest Neighbour Classification
+k-Nearest Neighbour Classification (OpenMP version modified by Peng Zhao)
 }
 \description{
 k-nearest neighbour classification for test set from training set. For
@@ -53,6 +53,9 @@ Factor of classifications of test set. \code{doubt} will be returned as \code{NA
 
   Venables, W. N. and Ripley, B. D. (2002)
   \emph{Modern Applied Statistics with S.} Fourth edition.  Springer.
+  
+  Peng Zhao (2016)
+  \emph{R with OpenMP: CRAN Package Modernization.} ParallelR Blog, www.parallel.com/blog
 }
 \seealso{
 \code{\link{knn1}}, \code{\link{knn.cv}}
