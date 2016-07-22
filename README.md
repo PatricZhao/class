@@ -39,7 +39,7 @@ Functionality:
     > [1] TRUE
     
 -----------------------------------------------------------------------------------------------------------
-TEST:
+Performance TEST:
 
     n.cols <- 500 
     n.rows <- 5000 
@@ -50,15 +50,17 @@ TEST:
     test.rows <- 5000  
     test <- matrix(runif(n.cols * test.rows), nrow=test.rows)
 
+    install_github("cran/class")
     library(class)
+    set.seed(1)
     system.time(knn(train, test, cl=labels, k=5))
     
-    library(devtools)
     install_github("patriczhao/class")
     library(class)
+    set.seed(1)
     system.time(knn(train, test, cl=labels, k=5))
-
-
+    
+    
 -----------------------------------------------------------------------------------------------------------
 Result :
 
