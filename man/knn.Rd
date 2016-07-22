@@ -1,6 +1,8 @@
 % file class/man/knn.Rd
 % copyright (C) 1994-9 W. N. Venables and B. D. Ripley
 %
+% OpenMP version by Peng Zhao (2014)
+
 \name{knn}
 \alias{knn}
 \title{
