@@ -3,8 +3,8 @@
 Homepage: http://www.stats.ox.ac.uk/pub/MASS4/  
 
 ==============================================================================================================
-This repository used to show how to acclerate legacy code by openMP or openACC.
-- This is OpenMP version of KNN (k-nearest neighbors algorithm).
+This repository used to show how to acclerate legacy code by parallel technologies including openMP and openACC.
+- This is OpenMP version of KNN (k-nearest neighbors algorithm) in R.
 - Modified by: Peng Zhao
 
 ------------------------------------------------------------------------------------------------------------
