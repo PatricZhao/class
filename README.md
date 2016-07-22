@@ -17,6 +17,28 @@ library(devtools)
 install_github("patriczhao/class")
 
 -----------------------------------------------------------------------------------------------------------
+Functionality:
+
+    install_github("patriczhao/class")
+    set.seed(1)
+    ompKNN.1 <- knn(train, test, cl, k = 1)
+    ompKNN.3 <- knn(train, test, cl, k = 3)
+    ompKNN.5 <- knn(train, test, cl, k = 5)
+
+    install_github("cran/class")
+    set.seed(1)
+    baseKNN.1 <- knn(train, test, cl, k = 1)
+    baseKNN.3 <- knn(train, test, cl, k = 3)
+    baseKNN.5 <- knn(train, test, cl, k = 5)
+    
+    all.equal(baseKNN.1, ompKNN.1)
+    > [1] TRUE
+    all.equal(baseKNN.3, ompKNN.3)
+    > [1] TRUE
+    all.equal(baseKNN.5, ompKNN.5)
+    > [1] TRUE
+    
+-----------------------------------------------------------------------------------------------------------
 TEST:
 
     n.cols <- 500 
