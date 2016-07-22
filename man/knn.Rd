@@ -4,7 +4,7 @@
 \name{knn}
 \alias{knn}
 \title{
-k-Nearest Neighbour Classification (OpenMP version modified by Peng Zhao)
+k-Nearest Neighbour Classification (OpenMP version)
 }
 \description{
 k-nearest neighbour classification for test set from training set. For
@@ -12,6 +12,9 @@ each row of the test set, the \code{k} nearest (in Euclidean distance)
 training set vectors are found, and the classification is decided by
 majority vote, with ties broken at random. If there are ties for the
 \code{k}th nearest vector, all candidates are included in the vote.
+
+The parallel version of KNN will use all cores in your computer and 
+is really faster than sinlge thread run.
 }
 \usage{
 knn(train, test, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE)
@@ -55,7 +58,7 @@ Factor of classifications of test set. \code{doubt} will be returned as \code{NA
   \emph{Modern Applied Statistics with S.} Fourth edition.  Springer.
   
   Peng Zhao (2016)
-  \emph{R with OpenMP: CRAN Package Modernization.} ParallelR Blog, www.parallel.com/blog
+  \emph{R with OpenMP: CRAN Package Modernization.} ParallelR, http://www.parallel.com/blog
 }
 \seealso{
 \code{\link{knn1}}, \code{\link{knn.cv}}
