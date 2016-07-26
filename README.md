@@ -53,13 +53,10 @@ Performance TEST:
     test.rows <- 5000  
     test <- matrix(runif(n.cols * test.rows), nrow=test.rows)
 
-    install_github("cran/class")
-    set.seed(1)
-    system.time(baseKNN <- knn(train, test, cl=labels, k=5))
-    
     install_github("patriczhao/class")
     set.seed(1)
-    system.time(ompKNN <- knn(train, test, cl=labels, k=5))
+    system.time(baseKNN <- knn(train, test, cl=labels, k=5, n.threads=1))
+    system.time(ompKNN <- knn(train, test, cl=labels, k=5, n.threads=20))
     
     
 -----------------------------------------------------------------------------------------------------------
