@@ -17,7 +17,7 @@
  */
 
 // Patric: Add OpenMP directive in the VR_Knn function.
-// Details visit : www.parallelr.com/blog
+// Please visit www.parallelr.com/blog for more details.
 
 
 #include <R.h>
@@ -98,7 +98,7 @@ VR_knn1(Sint *pntr, Sint *pnte, Sint *p, double *train, Sint *class,
 void
 VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
        double *train, Sint *class, double *test, Sint *res, double *pr,
-       Sint *votes, Sint *nc, Sint *cv, Sint *use_all)
+       Sint *votes, Sint *nc, Sint *cv, Sint *use_all, int *n_threads)
 {
     int   i, index, j, k, k1, kinit = *kin, kn, l = *lin, mm, npat, ntie,
           ntr = *pntr, nte = *pnte, extras;
@@ -112,8 +112,10 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
     Simple insertion sort will suffice since k will be small.
  */
 
+// Patric: Set threads number, n_threads is a pointer :)    
+    omp_set_num_threads(*n_threads);
 // Patric: Coarse Granularity Parallel by openMP 
-    #pragma omp parallel for private(npat, i, index, j, k, k1, kn, mm, ntie, extras, pos, nclass, j1, j2, needed, t, dist, tmp, nndist) shared(pr, res, test, train, class, nte, ntr, nc) 
+#pragma omp parallel for private(npat, i, index, j, k, k1, kn, mm, ntie, extras, pos, nclass, j1, j2, needed, t, dist, tmp, nndist) shared(pr, res, test, train, class, nte, ntr, nc) 
     for (npat = 0; npat < nte; npat++) {
 	kn = kinit;
 	for (k = 0; k < kn; k++)
@@ -207,7 +209,7 @@ VR_knn(Sint *kin, Sint *lin, Sint *pntr, Sint *pnte, Sint *p,
 	    }
 	res[npat] = index;
 	pr[npat] = (double) mm / (kinit + extras);
-        // Patric:  perthread memory
+        // Patric:  thread local memory
         Free(__votes);
     }   // Patric: End of OMP region
     RANDOUT;
@@ -436,7 +438,7 @@ VR_onlineSOM(double *data, double *codes, double *nhbrdist,
 #include "R_ext/Rdynload.h"
 
 static const R_CMethodDef CEntries[] = {
-    {"VR_knn", (DL_FUNC) &VR_knn, 14},
+    {"VR_knn", (DL_FUNC) &VR_knn, 15},
     {"VR_knn1", (DL_FUNC) &VR_knn1, 10},
     {"VR_lvq1", (DL_FUNC) &VR_lvq1, 10},
     {"VR_lvq2", (DL_FUNC) &VR_lvq2, 11},

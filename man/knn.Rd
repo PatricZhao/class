@@ -19,7 +19,7 @@ The parallel version of KNN will use all cores in your computer and
 is really faster than sinlge thread run.
 }
 \usage{
-knn(train, test, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE)
+knn(train, test, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE, n.threads = 1)
 }
 \arguments{
 \item{train}{
@@ -48,6 +48,9 @@ are returned as attribute \code{prob}.
 controls handling of ties. If true, all distances equal to the \code{k}th
 largest are included. If false, a random selection of distances
 equal to the \code{k}th is chosen to use exactly \code{k} neighbours.
+}
+\item{n.threads}{
+number of threads.
 }}
 \value{
 Factor of classifications of test set. \code{doubt} will be returned as \code{NA}.
@@ -69,7 +72,7 @@ Factor of classifications of test set. \code{doubt} will be returned as \code{NA
 train <- rbind(iris3[1:25,,1], iris3[1:25,,2], iris3[1:25,,3])
 test <- rbind(iris3[26:50,,1], iris3[26:50,,2], iris3[26:50,,3])
 cl <- factor(c(rep("s",25), rep("c",25), rep("v",25)))
-knn(train, test, cl, k = 3, prob=TRUE)
+knn(train, test, cl, k = 3, prob=TRUE, n.threads=1)
 attributes(.Last.value)
 }
 \keyword{classif}

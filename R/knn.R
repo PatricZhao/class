@@ -44,7 +44,7 @@ knn1 <- function(train, test, cl)
 	factor(res, levels=seq_along(levels(clf)), labels=levels(clf))
 }
 
-knn <- function(train, test, cl, k=1, l=0, prob=FALSE, use.all=TRUE)
+knn <- function(train, test, cl, k=1, l=0, prob=FALSE, use.all=TRUE, n.threads=1)
 {
 	train <- as.matrix(train)
 	if(is.null(dim(test))) dim(test) <- c(1, length(test))
@@ -79,7 +79,8 @@ knn <- function(train, test, cl, k=1, l=0, prob=FALSE, use.all=TRUE)
 		integer(nc+1),
 		as.integer(nc),
 		as.integer(FALSE),
-		as.integer(use.all)
+		as.integer(use.all),
+		as.integer(n.threads)
 		)
 	res <- factor(Z$res, levels=seq_along(levels(clf)),labels=levels(clf))
 	if(prob) attr(res, "prob") <- Z$pr
